@@ -1,8 +1,31 @@
 <!DOCTYPE html>
-<meta charset="utf-8" />
-
-<body>
-  <script src="//d3js.org/d3.v4.min.js"></script>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
-</body>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        padding-top: 30px;
+      }
+      canvas {
+        /* Width and height taken directly from SVG in Github site */
+        width: 928px;
+        height: 174px;
+      }
+      #main {
+        background-color: salmon;
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="main">
+      <canvas></canvas>
+    </main>
+    <script src="//d3js.org/d3.v4.min.js"></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -35,3 +35,5 @@ function getContributions() {
 getContributions()
   .then((data) => console.log('data', data))
   .catch((err) => console.log('Unable to get contributions', err))
+
+const ctx = d3.select('canvas').node().getContext('2d')
