@@ -8,13 +8,12 @@
         justify-content: center;
         padding-top: 30px;
       }
-      canvas {
-        /* Width and height taken directly from SVG in Github site */
-        width: 928px;
-        height: 174px;
+      rect {
+        width: 12px;
+        height: 12px;
       }
       #main {
-        background-color: salmon;
+        border: 1px solid #d1d5da;
         padding-top: 3px;
         padding-bottom: 3px;
       }
@@ -22,7 +21,8 @@
   </head>
   <body>
     <main id="main">
-      <canvas></canvas>
+      <!-- Width and height taken directly from SVG in Github site -->
+      <svg width="828" height="128"></svg>
     </main>
     <script src="//d3js.org/d3.v4.min.js"></script>
     <script src="config.js"></script>
