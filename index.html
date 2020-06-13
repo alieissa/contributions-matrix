@@ -13,22 +13,37 @@
         height: 12px;
       }
       .tooltip {
-        position: absolute;
-        padding: 5px;
-        border-radius: 2px;
         background: salmon;
+        border-radius: 2px;
+
+        opacity: 0;
+        /* 
+         * Without rule the tooltip captures the mouse event and tooltip for other cells 
+         * not displayed properly 
+         */
+        pointer-events: none;
+
+        padding: 5px;
+        position: absolute;
+        width: 210px;
       }
       .arrow-down {
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid salmon;
+
+        /* 
+         * Without rule the arrow captures the mouse event and the tooltip for hovered cell 
+         * is not shown 
+         */
+        pointer-events: none;
+
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
         top: 100%;
         width: 0;
         height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-
-        border-top: 5px solid salmon;
       }
       #main {
         border: 1px solid #d1d5da;
@@ -41,6 +56,12 @@
     <main id="main">
       <!-- Width and height taken directly from SVG in Github site -->
       <svg width="828" height="128"></svg>
+      <div class="tooltip">
+        <div class="content">
+          <div class="info-container"></div>
+          <div class="arrow-down"></div>
+        </div>
+      </div>
     </main>
     <script src="//d3js.org/d3.v4.min.js"></script>
     <script src="config.js"></script>
