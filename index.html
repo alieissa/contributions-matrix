@@ -13,9 +13,10 @@
         height: 12px;
       }
       .tooltip {
-        background: salmon;
+        background: rgba(0, 0, 0, 0.8);
         border-radius: 2px;
-
+        color: #959da5;
+        font-size: 12px;
         opacity: 0;
         /* 
          * Without rule the tooltip captures the mouse event and tooltip for other cells 
@@ -23,14 +24,22 @@
          */
         pointer-events: none;
 
-        padding: 5px;
+        padding: 10px 0px;
         position: absolute;
-        width: 210px;
+        width: 190px;
+        display: flex;
+        justify-content: center;
       }
+      .tooltip__message-container {
+        font-weight: 600;
+        color: #dfe2e5;
+      }
+      /* .tooltip_date-container {
+      } */
       .arrow-down {
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
-        border-top: 5px solid salmon;
+        border-top: 5px solid rgba(0, 0, 0, 0.8);
 
         /* 
          * Without rule the arrow captures the mouse event and the tooltip for hovered cell 
@@ -57,12 +66,14 @@
       <!-- Width and height taken directly from SVG in Github site -->
       <svg width="828" height="128"></svg>
       <div class="tooltip">
-        <div class="content">
-          <div class="info-container"></div>
-          <div class="arrow-down"></div>
+        <div class="info-container">
+          <span class="tooltip__message-container"></span>
+          <span class="tooltip__date-container"></span>
         </div>
+        <div class="arrow-down"></div>
       </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
     <script src="//d3js.org/d3.v4.min.js"></script>
     <script src="config.js"></script>
     <script src="app.js"></script>
