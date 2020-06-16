@@ -125,6 +125,15 @@ getContributions()
         .on('mouseout', (d) => {
           tooltip.transition().duration(200).style('opacity', 0)
         })
+
+      //Create the Scale we will use for the Axis
+      const xAxisScale = d3.scaleLinear().domain([1, 13]).range([0, 722])
+      const yAxisScale = d3.scaleLinear().domain([1, 7]).range([20, 103])
+      //Create the Axis
+      const xAxis = d3.axisBottom().scale(xAxisScale)
+      const yAxis = d3.axisRight().tickValues([1, 3, 5]).scale(yAxisScale)
+      const xAxisGroup = d3.select('svg').append('g').call(xAxis)
+      const yAxisGroup = d3.select('svg').append('g').call(yAxis)
     })
   })
   .catch((err) => console.log('Unable to get contributions', err))
