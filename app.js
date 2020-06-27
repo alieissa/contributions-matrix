@@ -125,15 +125,26 @@ getContributions()
         .on('mouseout', (d) => {
           tooltip.transition().duration(200).style('opacity', 0)
         })
-
-      //Create the Scale we will use for the Axis
-      const xAxisScale = d3.scaleLinear().domain([1, 13]).range([0, 722])
-      const yAxisScale = d3.scaleLinear().domain([1, 7]).range([20, 103])
-      //Create the Axis
-      const xAxis = d3.axisBottom().scale(xAxisScale)
-      const yAxis = d3.axisRight().tickValues([1, 3, 5]).scale(yAxisScale)
-      const xAxisGroup = d3.select('svg').append('g').call(xAxis)
-      const yAxisGroup = d3.select('svg').append('g').call(yAxis)
     })
+    //Create the Scale we will use for the Axis
+    const xAxisScale = d3.scaleLinear().domain([1, 13]).range([0, 720])
+    const yAxisScale = d3
+      .scalePoint()
+      .domain(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'])
+      .range([20, 103])
+    //Create the Axis
+    const xAxis = d3.axisBottom().scale(xAxisScale)
+    const yAxis = d3
+      .axisRight()
+      .tickFormat((day) => (['Mon', 'Wed', 'Fri'].includes(day) ? day : ''))
+      .tickSizeOuter(0)
+      .scale(yAxisScale)
+    const xAxisGroup = d3.select('svg').append('g').call(xAxis)
+    const yAxisGroup = d3.select('svg').append('g').call(yAxis)
+
+    // Removing the tick lines and the axes line using method suggested by
+    // Mike Bostock https://github.com/d3/d3-axis/issues/48
+    d3.selectAll('.tick line').remove()
+    d3.selectAll('.domain').remove()
   })
   .catch((err) => console.log('Unable to get contributions', err))
