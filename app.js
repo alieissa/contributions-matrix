@@ -10,6 +10,9 @@ const contributionQuery = `{
   user(login: "alieissa") {
     contributionsCollection {
       contributionCalendar {
+        months {
+          name
+        }
         weeks {
           contributionDays {
             color
@@ -33,9 +36,11 @@ const getContributions = () =>
     body: JSON.stringify({ query: contributionQuery }),
   })
     .then((response) => response.json())
-    .then(
-      (body) =>
-        body.data.user.contributionsCollection.contributionCalendar.weeks
+    .then((body) =>
+      ['weeks', 'months'].map(
+        (key) =>
+          body.data.user.contributionsCollection.contributionCalendar[key]
+      )
     )
 
 // Return information to be shown in tooltip
@@ -73,8 +78,17 @@ const getTooltipTopPosition = (d3Node) => {
   return y - tooltipHeight - tooltipArrowHeight - cellSize + 'px'
 }
 
+/**
+ * Returns the transformation that positions the cell exactly in the
+ * matrix. paddedCellSize * weekIndex gives us its x axis position,
+ * we add 40 to account for offset needed for the axis, while the y position of
+ * 20 is to account for the y axis
+ */
+const getCellTransformation = (_, weekIndex) =>
+  `translate(${paddedCellSize * weekIndex + 40}, 20)`
+
 getContributions()
-  .then((data) => {
+  .then(([weeklyContributionData, months]) => {
     /**
      * Tooltip contains two elements, the tooltip message container and date container.
      * The message container contains the beginning of the tooltip message, e.g.
@@ -87,12 +101,12 @@ getContributions()
 
     // Each week is drawn as a column
     const weeks = d3
-      .select('svg')
+      .select('#matrix')
       .selectAll('g')
-      .data(data)
+      .data(weeklyContributionData)
       .enter()
       .append('g')
-      .attr('transform', (_, i) => `translate(${paddedCellSize * i}, 0)`)
+      .attr('transform', getCellTransformation)
 
     // Draw each day in week for all weeks
     weeks.each((week, i, weekNodes) => {
@@ -126,21 +140,29 @@ getContributions()
           tooltip.transition().duration(200).style('opacity', 0)
         })
     })
-    //Create the Scale we will use for the Axis
-    const xAxisScale = d3.scaleLinear().domain([1, 13]).range([0, 720])
+    // FIXME: The months in the x axis are not properly aligned
+    // const xAxisScale = d3
+    //   .scalePoint()
+    //   .domain(months.map((month) => month.name))
+    //   .range([48, 760])
+    // const xAxis = d3.axisBottom().scale(xAxisScale)
+    // const xAxisGroup = d3.select('svg').append('g').call(xAxis)
+
+    // Create the Scale we will use for the Axis
     const yAxisScale = d3
       .scalePoint()
       .domain(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'])
-      .range([20, 103])
+      // Center of first cell is calculated as follows y axis padding (20) + half of cell size (6)
+      // TODO: Use constants
+      .range([26, 110])
+
     //Create the Axis
-    const xAxis = d3.axisBottom().scale(xAxisScale)
     const yAxis = d3
       .axisRight()
       .tickFormat((day) => (['Mon', 'Wed', 'Fri'].includes(day) ? day : ''))
       .tickSizeOuter(0)
       .scale(yAxisScale)
-    const xAxisGroup = d3.select('svg').append('g').call(xAxis)
-    const yAxisGroup = d3.select('svg').append('g').call(yAxis)
+    const yAxisGroup = d3.select('#matrix').append('g').call(yAxis)
 
     // Removing the tick lines and the axes line using method suggested by
     // Mike Bostock https://github.com/d3/d3-axis/issues/48
