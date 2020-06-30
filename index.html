@@ -12,11 +12,17 @@
         width: 12px;
         height: 12px;
       }
+      .main {
+        border: 1px solid #d1d5da;
+        padding: 20px;
+      }
       .tooltip {
         background: rgba(0, 0, 0, 0.8);
         border-radius: 2px;
         color: #959da5;
         font-size: 12px;
+        display: flex;
+        justify-content: center;
         opacity: 0;
         /* 
          * Without rule the tooltip captures the mouse event and tooltip for other cells 
@@ -27,8 +33,6 @@
         padding: 10px 0px;
         position: absolute;
         width: 190px;
-        display: flex;
-        justify-content: center;
       }
       .tooltip__message-container {
         font-weight: 600;
@@ -54,21 +58,60 @@
         width: 0;
         height: 0;
       }
-      #main {
-        border: 1px solid #d1d5da;
-        padding-top: 3px;
-        padding-bottom: 3px;
-        padding: 20px;
+      .legend {
         display: flex;
+        flex-direction: row-reverse;
         align-items: center;
-        justify-content: center;
+      }
+      .legend__item-wrapper {
+        display: flex;
+        list-style: none;
+        justify-content: space-between;
+
+        padding: 0px;
+        margin: 5px;
+      }
+      .legend__item {
+        margin: 2px;
+        width: 10px;
+        height: 10px;
+      }
+      .legend__item--lightest {
+        background-color: #ebedf0;
+      }
+      .legend__item--light {
+        background-color: #9be9a8;
+      }
+      .legend__item--normal {
+        background-color: #40c463;
+      }
+      .legend__item--dark {
+        background-color: #30a14e;
+      }
+      .legend__item--darkest {
+        background-color: #216e39;
+      }
+      .legend__text {
+        color: #586069;
+        font-size: 11px;
       }
     </style>
   </head>
   <body>
-    <main id="main">
+    <main class="main">
       <!-- Width and height taken directly from SVG in Github site -->
-      <svg id="matrix" width="782" height="116"></svg>
+      <svg class="matrix" width="782" height="116"></svg>
+      <div class="legend">
+        <span class="legend__text">More</span>
+        <ul class="legend__item-wrapper">
+          <li class="legend__item legend__item--lightest"></li>
+          <li class="legend__item legend__item--light"></li>
+          <li class="legend__item legend__item--normal"></li>
+          <li class="legend__item legend__item--dark"></li>
+          <li class="legend__item legend__item--darkest"></li>
+        </ul>
+        <span class="legend__text">Less</span>
+      </div>
       <div class="tooltip">
         <div class="info-container">
           <span class="tooltip__message-container"></span>

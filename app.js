@@ -1,6 +1,5 @@
-// TODO: Add days and months axes
+// TODO: months axes
 // TODO: Fix table styles
-// TODO: Add contributions legend
 
 // Size of cell representing day (12) and padding around around it (2)
 const cellSize = 12
@@ -101,7 +100,7 @@ getContributions()
 
     // Each week is drawn as a column
     const weeks = d3
-      .select('#matrix')
+      .select('.matrix')
       .selectAll('g')
       .data(weeklyContributionData)
       .enter()
@@ -162,7 +161,7 @@ getContributions()
       .tickFormat((day) => (['Mon', 'Wed', 'Fri'].includes(day) ? day : ''))
       .tickSizeOuter(0)
       .scale(yAxisScale)
-    const yAxisGroup = d3.select('#matrix').append('g').call(yAxis)
+    const yAxisGroup = d3.select('.matrix').append('g').call(yAxis)
 
     // Removing the tick lines and the axes line using method suggested by
     // Mike Bostock https://github.com/d3/d3-axis/issues/48
